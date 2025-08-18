@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+/* Response struct */
 type Resp struct {
 	Language    string `json: "language"`
 	Translation string `json:"translation"`
