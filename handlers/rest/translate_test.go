@@ -10,27 +10,56 @@ import (
 
 func TestTranslateAPI(t *testing.T) {
 	// Arrange
-	rr := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/hello", nil)
+	tt := []struct {
+		Endpoint            string
+		StatusCode          int
+		ExpectedLanguage    string
+		ExpectedTranslation string
+	}{
+		{
+			Endpoint:            "/hello",
+			StatusCode:          200,
+			ExpectedLanguage:    "english",
+			ExpectedTranslation: "hello",
+		},
+		{
+			Endpoint:            "/hello?language=german",
+			StatusCode:          200,
+			ExpectedLanguage:    "german",
+			ExpectedTranslation: "hallo",
+		},
+		{
+			Endpoint:            "/hello?language=dutch",
+			StatusCode:          http.StatusNotFound,
+			ExpectedLanguage:    "",
+			ExpectedTranslation: "",
+		},
+	}
+
 	handler := http.HandlerFunc(rest.TranslateHandler)
 
-	// Act
-	handler.ServeHTTP(rr, req)
+	for _, test := range tt {
+		rr := httptest.NewRecorder()
+		req, _ := http.NewRequest("GET", test.Endpoint, nil)
 
-	// Assert
-	if rr.Code != http.StatusOK {
-		t.Errorf(`expected status 200 but received %d`, rr.Code)
-	}
+		// Act
+		handler.ServeHTTP(rr, req)
 
-	var resp rest.Resp
-	json.Unmarshal(rr.Body.Bytes(), &resp)
+		// Assert
+		if rr.Code != test.StatusCode {
+			t.Errorf(`expected status %d but received %d`, test.StatusCode, rr.Code)
+		}
 
-	if resp.Language != "english" {
-		t.Errorf(`expected language "english" but received %s`, resp.Language)
-	}
+		var resp rest.Resp
+		json.Unmarshal(rr.Body.Bytes(), &resp)
 
-	if resp.Translation != "hello" {
-		t.Errorf(`expected translation "hello" but received %s`, resp.Translation)
+		if resp.Language != test.ExpectedLanguage {
+			t.Errorf(`expected language "%s" but received %s`, test.ExpectedLanguage, resp.Language)
+		}
+
+		if resp.Translation != test.ExpectedTranslation {
+			t.Errorf(`expected translation "%s" but received %s`, test.ExpectedTranslation, resp.Translation)
+		}
 	}
 
 }
