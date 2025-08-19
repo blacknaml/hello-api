@@ -100,12 +100,12 @@ jobs:
           fetch-depth: 0
       - name: Deploy function
         id: deploy
-        uses: google-github-actions/deploy-cloud-functions@main
+        uses: google-github-actions/deploy-cloud-functions@v3
         with:
           name: translate
           entry_point: Translate
           runtime: go116
           project_id: mustbe93751
-          credentials_json: ${{ secrets.GCP_CREDENTIALS}}
+          credentials: ${{ secrets.GCP_CREDENTIALS}}
       - id: test
         run: curl "${{ steps.deploy.outputs.url }}/hello"
