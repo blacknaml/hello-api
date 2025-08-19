@@ -13,5 +13,10 @@
  
 # Dependency directories (remove the comment below to include it)
 # vendor/
- 
+
+# test report / code coverage
+coverage.out
+cover.html
+
 api
+
