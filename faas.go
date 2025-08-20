@@ -1,8 +1,9 @@
 package main
 
 import (
-	"hello-api/handlers/rest"
 	"net/http"
+
+	"github.com/blacknaml/hello-api/handlers/rest"
 )
 
 func Translate(w http.ResponseWriter, r *http.Request) {

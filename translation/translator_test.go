@@ -1,8 +1,9 @@
 package translation_test
 
 import (
-	"hello-api/translation"
 	"testing"
+
+	"github.com/blacknaml/hello-api/translation"
 )
 
 func TestTranslate(t *testing.T) {

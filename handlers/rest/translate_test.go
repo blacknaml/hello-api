@@ -2,10 +2,11 @@ package rest_test
 
 import (
 	"encoding/json"
-	"hello-api/handlers/rest"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/blacknaml/hello-api/handlers/rest"
 )
 
 func TestTranslateAPI(t *testing.T) {
