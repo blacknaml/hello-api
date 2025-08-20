@@ -7,12 +7,6 @@ import (
 	"github.com/blacknaml/hello-api/handlers/rest"
 )
 
-/* Response struct */
-type Resp struct {
-	Language    string `json: "language"`
-	Translation string `json:"translation"`
-}
-
 func main() {
 	addr := ":8080"
 

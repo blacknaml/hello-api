@@ -1,4 +1,4 @@
-package main
+package faas
 
 import (
 	"net/http"
