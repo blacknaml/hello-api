@@ -108,7 +108,7 @@ jobs:
         with:
           name: translate
           entry_point: Translate
-          runtime: go116
+          runtime: go118
           project_id: mustbe93751
       - id: test
         run: curl "${{ steps.deploy.outputs.url }}/hello"
