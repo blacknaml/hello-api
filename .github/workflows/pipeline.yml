@@ -112,3 +112,19 @@ jobs:
           project_id: mustbe93751
       - id: test
         run: curl "${{ steps.deploy.outputs.url }}/hello"
+  deploy-pass:
+    name: Deploy PaaS
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Deploy App
+        id: deploy
+        uses: google-github-actions/deploy-appengine@main
+        with:
+          credentials: ${{ secrets.GCP_CREDENTIALS }}
+      - id: test
+        run: curl "${{ steps.deploy.outputs.url }}/translate/hello"
