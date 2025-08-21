@@ -1,6 +1,9 @@
 runtime: go121
-instance_class: F2
 main: ./cmd
+automatic_scaling:
+  min_instances: 1
+  max_instances: 3
+  target_cpu_utilization: 0.6
 liveness_check:
   path: "/health"
   check_interval_sec: 30
