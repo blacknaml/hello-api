@@ -10,4 +10,4 @@ else
     done
 fi
  
-golang-ci run
+golangci-lint run
