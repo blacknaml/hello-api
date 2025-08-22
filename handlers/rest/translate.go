@@ -1,4 +1,3 @@
-// Package rest implements request API from http
 package rest
 
 import (
