@@ -16,6 +16,9 @@ coverage:
 report:
 	go tool cover -html=coverage.out -o cover.html
 
+check-format:
+	test -z $$(go fmt ./...)
+
 #TODO add MacOS support
 install-go:
 	wget "https://golang.org/dl/go$(GO_VERSION).linux-amd64.tar.gz"
