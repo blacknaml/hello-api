@@ -1,3 +1,4 @@
+// Package handlers implements handling req from http
 package handlers
 
 import (

@@ -19,7 +19,7 @@ report:
 check-format:
 	test -z $$(go fmt ./...)
 
-lint: 
+static-check: 
 	golangci-lint run
 
 #TODO add MacOS support

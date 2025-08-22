@@ -1,3 +1,4 @@
+// Package translation implements translating request
 package translation
 
 import "strings"
