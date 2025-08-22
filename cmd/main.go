@@ -19,7 +19,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/hello", rest.TranslateHandler)
-	mux.HandleFunc("/helth", handlers.HealthCheck)
+	mux.HandleFunc("/health", handlers.HealthCheck)
 
 	server := &http.Server{
 		Addr:              addr,
