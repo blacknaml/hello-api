@@ -33,4 +33,4 @@ init-go:
 	echo 'export PATH=$$PATH:$${HOME}/go/bin' >> $${HOME}/.bashrc
 
 install-lint:
-	sudo curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sudo sh -s -- -b $(go env GOPATH)/bin v2.4.0
+	sudo curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sudo sh -s -- -b $(go env GOPATH)/bin v1.64.8
