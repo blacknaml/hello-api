@@ -1,4 +1,3 @@
-// Package faas implements function as a Services
 package faas
 
 import (
