@@ -5,8 +5,11 @@ import (
 	"net/http"
 
 	"github.com/blacknaml/hello-api/handlers/rest"
+	"github.com/blacknaml/hello-api/translation"
 )
 
 func Translate(w http.ResponseWriter, r *http.Request) {
-	rest.TranslateHandler(w, r)
+	translationService := translation.NewStaticService()
+	translateHandler := rest.NewTranslateHandler(translationService)
+	translateHandler.TranslateHandler(w, r)
 }

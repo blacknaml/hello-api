@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
-
-	"github.com/blacknaml/hello-api/translation"
 )
 
 type Resp struct {
@@ -18,7 +16,17 @@ type Translator interface {
 	Translate(word string, language string) string
 }
 
-func TranslateHandler(w http.ResponseWriter, r *http.Request) {
+type TranslateHandler struct {
+	service Translator
+}
+
+func NewTranslateHandler(service Translator) *TranslateHandler {
+	return &TranslateHandler{
+		service: service,
+	}
+}
+
+func (t *TranslateHandler) TranslateHandler(w http.ResponseWriter, r *http.Request) {
 	enc := json.NewEncoder(w)
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 
@@ -27,7 +35,7 @@ func TranslateHandler(w http.ResponseWriter, r *http.Request) {
 		language = "english"
 	}
 	word := strings.ReplaceAll(r.URL.Path, "/", "")
-	translation := translation.Translate(word, language)
+	translation := t.service.Translate(word, language)
 	if translation == "" {
 		w.WriteHeader(http.StatusNotFound)
 		return

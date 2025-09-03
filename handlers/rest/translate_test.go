@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/blacknaml/hello-api/handlers/rest"
+	"github.com/blacknaml/hello-api/translation"
 )
 
 func TestTranslateAPI(t *testing.T) {
@@ -37,7 +38,8 @@ func TestTranslateAPI(t *testing.T) {
 		},
 	}
 
-	handler := http.HandlerFunc(rest.TranslateHandler)
+	underTest := rest.NewTranslateHandler(translation.NewStaticService())
+	handler := http.HandlerFunc(underTest.TranslateHandler)
 
 	for _, test := range tt {
 		rr := httptest.NewRecorder()

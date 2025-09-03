@@ -9,6 +9,7 @@ import (
 
 	"github.com/blacknaml/hello-api/handlers"
 	"github.com/blacknaml/hello-api/handlers/rest"
+	"github.com/blacknaml/hello-api/translation"
 )
 
 func main() {
@@ -18,7 +19,10 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/hello", rest.TranslateHandler)
+
+	translationService := translation.NewStaticService()
+	translationHandler := rest.NewTranslateHandler(translationService)
+	mux.HandleFunc("/translate/hello", translationHandler.TranslateHandler)
 	mux.HandleFunc("/health", handlers.HealthCheck)
 
 	server := &http.Server{
