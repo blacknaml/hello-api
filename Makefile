@@ -21,8 +21,7 @@ check-format:
 
 static-check: 
 	golangci-lint run
-
-#TODO add MacOS support
+	
 install-go:
 	wget "https://golang.org/dl/go$(GO_VERSION).linux-amd64.tar.gz"
 	sudo tar -C /usr/local -xzf go$(GO_VERSION).linux-amd64.tar.gz
