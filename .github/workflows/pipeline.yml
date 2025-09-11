@@ -129,8 +129,7 @@ jobs:
     - name: Setup Cloud SDK
       uses: google-github-actions/setup-gcloud@v3.0.1
       with:
-        project_id: mustbe93751
-        service_account_key: ${{ secrets.gcp_credentials }}
+        credentials_json: ${{ secrets.GCP_CREDENTIALS }}
         export_default_credentials: true
     - name: Configure Docker
       run: gcloud auth configure-docker --quiet
@@ -139,9 +138,7 @@ jobs:
     - name: Login to the GHCR
       uses: docker/login-action@master
       with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        credentials_json: ${{ secrets.GCP_CREDENTIALS }}
     - name: Tag for Github
       run: docker image tag gcr.io/mustbe93751/hello-api:latest ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
     - name: Push docker image to the GHCR
