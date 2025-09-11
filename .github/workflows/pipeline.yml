@@ -123,11 +123,11 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
     - name: Install Pack
-      run: (curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.21.1/pack-v0.21.1-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack)
+      run: (curl -sSL "https://github.com/buildpacks/pack/releases/download/v0.38.2/pack-v0.38.2-linux.tgz" | sudo tar -C /usr/local/bin/ --no-same-owner -xzv pack)
     - name: Build
       run: pack build gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello-api:latest --builder gcr.io/buildpacks/builder:google-22
     - name: Setup Cloud SDK
-      uses: google-github-actions/setup-gcloud@v0
+      uses: google-github-actions/setup-cloud@v3.0.1
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         service_account_key: ${{ secrets.gcp_credentials }}
