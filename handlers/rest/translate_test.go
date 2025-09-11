@@ -10,6 +10,15 @@ import (
 	"github.com/blacknaml/hello-api/translation"
 )
 
+/* type stubbedService struct{}
+
+func (s *stubbedService) Translate(word string, language string) string {
+	if word == "foo" {
+		return "bar"
+	}
+	return ""
+} */
+
 func TestTranslateAPI(t *testing.T) {
 	// Arrange
 	tt := []struct {
@@ -37,6 +46,9 @@ func TestTranslateAPI(t *testing.T) {
 			ExpectedTranslation: "",
 		},
 	}
+
+	//h := rest.NewTranslateHandler(&stubbedService{})
+	//handler := http.HandlerFunc(h.TranslateHandler)
 
 	underTest := rest.NewTranslateHandler(translation.NewStaticService())
 	handler := http.HandlerFunc(underTest.TranslateHandler)
