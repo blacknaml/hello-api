@@ -127,7 +127,7 @@ jobs:
     - name: Build
       run: pack build gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello-api:latest --builder gcr.io/buildpacks/builder:google-22
     - name: Setup Cloud SDK
-      uses: google-github-actions/setup-cloud@v3.0.1
+      uses: google-github-actions/setup-gcloud@v3.0.1
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         service_account_key: ${{ secrets.gcp_credentials }}
