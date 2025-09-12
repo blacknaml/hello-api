@@ -1,28 +1,32 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
+	"github.com/blacknaml/hello-api/config"
 	"github.com/blacknaml/hello-api/handlers"
 	"github.com/blacknaml/hello-api/handlers/rest"
 	"github.com/blacknaml/hello-api/translation"
 )
 
 func main() {
-	addr := fmt.Sprintf(":%s", os.Getenv("PORT"))
-	if addr == ":" {
-		addr = ":8080"
+
+	cfg := config.LoadConfiguration()
+	addr := cfg.Port
+
+	var translationService rest.Translator
+	translationService = translation.NewStaticService()
+	if cfg.LegacyEndpoint != "" {
+		log.Printf("creating external translation client: %s", cfg.LegacyEndpoint)
+		client := translation.NewHelloClient(cfg.LegacyEndpoint)
+		translationService = translation.NewRemoteService(client)
 	}
+	translateHandler := rest.NewTranslateHandler(translationService)
 
 	mux := http.NewServeMux()
-
-	translationService := translation.NewStaticService()
-	translationHandler := rest.NewTranslateHandler(translationService)
-	mux.HandleFunc("/translate/hello", translationHandler.TranslateHandler)
+	mux.HandleFunc("/translate/hello", translateHandler.TranslateHandler)
 	mux.HandleFunc("/health", handlers.HealthCheck)
 
 	server := &http.Server{

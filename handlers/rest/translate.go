@@ -34,20 +34,18 @@ func (t *TranslateHandler) TranslateHandler(w http.ResponseWriter, r *http.Reque
 	if language == "" {
 		language = "english"
 	}
-	word := strings.ReplaceAll(r.URL.Path, "/", "")
+	language = strings.ToLower(language)
+	word := strings.ReplaceAll(r.URL.Path, "/translate/", "")
 	translation := t.service.Translate(word, language)
 	if translation == "" {
-		w.WriteHeader(http.StatusNotFound)
+		w.WriteHeader(404)
 		return
 	}
-
 	resp := Resp{
 		Language:    language,
 		Translation: translation,
 	}
-
 	if err := enc.Encode(resp); err != nil {
-		panic("Unable to encode response")
+		panic("unable to encode response")
 	}
-
 }
