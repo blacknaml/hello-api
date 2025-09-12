@@ -26,7 +26,7 @@ func main() {
 	translateHandler := rest.NewTranslateHandler(translationService)
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/translate/hello", translateHandler.TranslateHandler)
+	mux.HandleFunc("/hello", translateHandler.TranslateHandler)
 	mux.HandleFunc("/health", handlers.HealthCheck)
 
 	server := &http.Server{
