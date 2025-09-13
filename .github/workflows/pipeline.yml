@@ -100,7 +100,7 @@ jobs:
       with:
         name: api
     - name: Changelog
-      uses: scottbanner/generate-changelog-action@master
+      uses: scottbrenner/generate-changelog-action@master
       id: changelog
     - name: Create Release
       id: create_release
