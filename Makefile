@@ -1,11 +1,16 @@
 GO_VERSION :=1.18
 
+TAG := $(shell git describe --abbrev=0 --tags --always)
+HASH := $(shell git rev-parse HEAD)
+DATE := $(shell date +%Y-%m-%d.%H:%M:%S)
+LDFLAGS := -w -X github.com/blacknaml/hello-api/handlers.hash=$(HASH) -X github.com/blacknaml/hello-api/handlers.tag=$(TAG) -X github.com/blacknaml/hello-api/handlers.date=$(DATE)
+
 .PHONY: install-go init-go install-lint copy-hooks
 
 setup: install-go init-go install-lint copy-hooks
 
 build: 
-	go build -o api cmd/main.go
+	go build -ldflags "$(LDFLAGS)" -o api cmd/main.go
 
 test:
 	go test ./... -coverprofile=coverage.out
