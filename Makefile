@@ -7,7 +7,7 @@ LDFLAGS := -w -X github.com/blacknaml/hello-api/handlers.hash=$(HASH) -X github.
 
 .PHONY: install-go init-go install-lint copy-hooks
 
-setup: install-go init-go install-lint copy-hooks
+setup: install-go init-go install-lint copy-hooks install-godog
 
 build: 
 	go build -ldflags "$(LDFLAGS)" -o api cmd/main.go
@@ -42,3 +42,6 @@ install-lint:
 copy-hooks:
 	chmod +x scripts/hooks/*
 	cp -r scripts/hooks .git/.
+
+install-godog:
+	go install github.com/cucumber/godog/cmd/godog@latest

@@ -1,4 +1,3 @@
 {
-    "port": "8079",
-    "legacy_endpoint": "http://mustbe93751.de.r.appspot.com/hello"
+    "port": "8079"
 }

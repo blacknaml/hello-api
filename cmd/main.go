@@ -12,9 +12,16 @@ import (
 )
 
 func main() {
-
 	cfg := config.LoadConfiguration()
-	addr := cfg.Port
+	mux := API(cfg)
+
+	log.Printf("listening on %s\n", cfg.Port)
+	if err := mux.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		log.Fatalf("Server failed: %v", err)
+	}
+}
+
+func API(cfg config.Configuration) *http.Server {
 
 	var translationService rest.Translator
 	translationService = translation.NewStaticService()
@@ -22,6 +29,10 @@ func main() {
 		log.Printf("creating external translation client: %s", cfg.LegacyEndpoint)
 		client := translation.NewHelloClient(cfg.LegacyEndpoint)
 		translationService = translation.NewRemoteService(client)
+	}
+	if cfg.DatabaseURL != "" {
+		db := translation.NewDatabaseService(cfg)
+		translationService = db
 	}
 	translateHandler := rest.NewTranslateHandler(translationService)
 
@@ -31,7 +42,7 @@ func main() {
 	mux.HandleFunc("/info", handlers.Info)
 
 	server := &http.Server{
-		Addr:              addr,
+		Addr:              cfg.Port,
 		ReadHeaderTimeout: 5 * time.Second,  // Timeout for reading request headers
 		ReadTimeout:       10 * time.Second, // Timeout for reading the entire request (headers + body)
 		WriteTimeout:      10 * time.Second, // Timeout for writing the response
@@ -39,8 +50,5 @@ func main() {
 		Handler:           mux,              // Use http.DefaultServeMux if nil
 	}
 
-	log.Printf("listening on %s\n", server.Addr)
-	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		log.Fatalf("Server failed: %v", err)
-	}
+	return server
 }
